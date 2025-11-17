@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <style>
+    body{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      margin:0;
+      font-family:'Cinzel', serif;
+      background: rgba(255,255,255,0.6) url("images/sky.jpg") center/cover fixed;
+      backdrop-filter: blur(6px);
+    }
+
+    .login-box{
+      background-color:rgba(255,255,255,0.6);
+      padding:30px;
+      border-radius:20px;
+      width:300px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.12);
+      text-align:center;
+      backdrop-filter:blur(8px);
+    }
+
+    h1{
+      margin-top:0;
+      font-size:26px;
+      color:#074f4f;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    label{ display:block; text-align:left; margin:10px 0 5px; color:#003c3b; font-weight:600; }
+
+    input{
+      width:100%;
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid #b2d9d8;
+      outline:none;
+      font-size:14px;
+      font-family:'Cinzel', serif;
+    }
+
+    input:focus{
+      border-color:#007f7f;
+      box-shadow:0 0 4px rgba(0,166,166,0.4);
+    }
+
+    .button{
+      margin-top:15px;
+      background:#00a6a6;
+      border:none;
+      padding:10px 0;
+      width:100%;
+      font-size:18px;
+      color:white;
+      border-radius:10px;
+      cursor:pointer;
+      transition:.3s;
+    }
+    .button:hover{
+      background:#007f7f;
+      box-shadow:0 0 10px rgba(0,166,166,0.5);
+    }
+
+    .link{
+      margin-top:14px; 
+      display:block;
+      color:#063b3a;
+      text-decoration:none;
+      font-size:14px;
+      font-weight:600;
+    }
+    .link:hover{ text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h1>LOGIN</h1>
+    <form action="index.html">
+      <label>Email</label>
+      <input type="email" placeholder="enter email" required>
+
+      <label>Password</label>
+      <input type="password" placeholder="enter password" required>
+
+      <button class="button">Login</button>
+    </form>
+
+    <a href="form.html" class="link">Don't have account? Sign Up</a>
+  </div>
+<script>
+document.querySelector("form").addEventListener("submit", function(e){
+  e.preventDefault();
+  const data = {
+    email: document.querySelectorAll("input")[0].value,
+    password: document.querySelectorAll("input")[1].value
+  };
+  fetch("http://localhost:8080/api/login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.status){
+      alert("Login Success");
+      window.location="index.html";
+    }else{
+      alert(res.message);
+    }
+  })
+})
+</script>
+
+</body>
+</html>
